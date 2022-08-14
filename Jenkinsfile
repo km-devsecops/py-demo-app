@@ -33,9 +33,21 @@ pipeline {
                 }
             }
         }
-        stage('Deploy') {
+        stage('3rdParty Vulnerabilities'){
             steps {
-                echo 'Deploying....'
+                script {
+                    sh "pip-audit -o audit.json  -f json"
+                }
+            }
+        }
+        stage('Ivanti Neurons: Upload') {
+            steps {
+                echo 'Uploading data into RiskSense ..'
+            }
+        }
+        stage('Ivanti Neurons: CheckPoint') {
+            steps {
+                echo 'Check if all vulnerability scanner data is within thresholds ..'
             }
         }
     }
