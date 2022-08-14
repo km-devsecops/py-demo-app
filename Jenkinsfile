@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+       label "securin"
+    }
 
     stages {
         stage('Build') {
@@ -21,6 +23,13 @@ pipeline {
                                                              -Dsonar.organization=csw-devsecops-org \
                                                              -Dsonar.python.version=3"
                     }
+                }
+            }
+        }
+        stage('Code Vulnerabilities'){
+            steps {
+                script {
+                    sh "bandit --security-level high . -r -o bandit.json -f json"
                 }
             }
         }
