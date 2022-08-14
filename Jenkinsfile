@@ -13,12 +13,14 @@ pipeline {
             }
         }
         stage('SonarQube analysis') {
-          steps {
-              def scannerHome = tool 'SonarQubeScanner47';
-              withSonarQubeEnv('sonar-cloud') {
-                sh "${scannerHome}/bin/sonar-scanner"
-              }
-          }
+            steps {
+                script {
+                    def scannerHome = tool 'SonarQubeScanner47';
+                    withSonarQubeEnv('sonar-cloud') {
+                        sh "${scannerHome}/bin/sonar-scanner"
+                    }
+                }
+            }
         }
         stage('Deploy') {
             steps {
