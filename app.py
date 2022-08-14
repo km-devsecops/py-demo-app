@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
 PROJECT_ROOT = os.path.dirname(os.path.realpath(__file__))
-DATABASE = os.path.join(PROJECT_ROOT, 'todo.db')
+DATABASE = os.path.join(PROJECT_ROOT, 'app.db')
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////" + DATABASE
