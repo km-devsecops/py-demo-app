@@ -45,6 +45,18 @@ pipeline {
                 }
             }
         }
+        stage('Container build and Scan'){
+            steps {
+                script {
+                    try {
+                        echo "TODO: Container build and scan .."
+                    } catch (Exception e)  {
+                        echo 'Exception occurred: ' + e.toString()
+                        echo 'Ignoring hard exit from container build/scan'
+                    }
+                }
+            }
+        }
         stage('Ivanti Neurons: Upload') {
             steps {
                 echo 'Uploading data into RiskSense ..'
@@ -53,6 +65,16 @@ pipeline {
         stage('Ivanti Neurons: CheckPoint') {
             steps {
                 echo 'Check if all vulnerability scanner data is within thresholds ..'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploy the new image and rotate tasks ..'
+            }
+        }
+        stage('Validation Tests') {
+            steps {
+                echo 'Run validation tests including health checks ..'
             }
         }
     }
