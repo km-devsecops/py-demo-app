@@ -36,7 +36,12 @@ pipeline {
         stage('3rdParty Vulnerabilities'){
             steps {
                 script {
-                    sh "pip-audit -o audit.json  -f json"
+                    try {
+                        sh "pip-audit -o audit.json  -f json"
+                    } catch (Exception e)  {
+                        echo 'Exception occurred: ' + e.toString()
+                        echo 'Ignoring hard exit from pip-audit'
+                    }
                 }
             }
         }
