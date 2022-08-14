@@ -29,7 +29,7 @@ pipeline {
         stage('Code Vulnerabilities'){
             steps {
                 script {
-                    sh "bandit --security-level high . -r -o bandit.json -f json"
+                    sh "bandit --severity-level high . -r -o bandit.json -f json"
                 }
             }
         }
