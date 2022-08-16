@@ -62,6 +62,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-s", "--scanfile", help="Path of the scan file to load", required=True)
+    parser.add_argument("-o", "--outfile", help="Path of the Out file to dump the results", required=True)
 
     args = parser.parse_args()
 
