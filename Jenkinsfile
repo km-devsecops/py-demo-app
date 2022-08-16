@@ -70,7 +70,7 @@ pipeline {
             steps {
                 echo "Collecting reports from all scanners .. "
                 script {
-                    sh "python scripts/make_pip_audit_report.py -s audit.json"
+                    sh "python scripts/make_pip_audit_report.py -s audit.json -o ${env.WORKSPACE}/reports/audit-formatted.json"
                 }
             }
         }

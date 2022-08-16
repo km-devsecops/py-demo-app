@@ -93,5 +93,5 @@ if __name__ == '__main__':
 
                 audit_data.append(data_block)
 
-    with open('reports/audit_formatted.json', 'w') as AUDIT_FILE:
+    with open(args.outfile, 'w') as AUDIT_FILE:
         json.dump(audit_data, AUDIT_FILE, indent=4)
