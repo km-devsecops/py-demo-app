@@ -78,7 +78,7 @@ pipeline {
                     steps {
                         script {
                             try {
-                                echo "Container Scan"
+                                sh "anchore-cli image add flask:latest"
                             } catch (Exception e)  {
                                 echo 'Exception occurred: ' + e.toString()
                                 echo 'Ignoring hard exit from container scanner tool'
