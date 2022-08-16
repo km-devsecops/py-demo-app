@@ -16,6 +16,19 @@ pipeline {
             }
         }
 
+        stage('Container Build'){
+            steps {
+                script {
+                    try {
+                        echo "TODO: Container build .."
+                    } catch (Exception e)  {
+                        echo 'Exception occurred: ' + e.toString()
+                        echo 'Ignoring hard exit from container build'
+                    }
+                }
+            }
+        }
+
         stage('Security Scans') {
             parallel {
                 stage('Sonarqube') {
@@ -37,7 +50,7 @@ pipeline {
                         }
                     }
                 }
-                stage('ThirdParty_Vulnerabilities'){
+                stage('ThirdParty Vulnerabilities'){
                     steps {
                         script {
                             try {
@@ -49,17 +62,16 @@ pipeline {
                         }
                     }
                 }
-            }
-        }
-
-        stage('Container build and Scan'){
-            steps {
-                script {
-                    try {
-                        echo "TODO: Container build and scan .."
-                    } catch (Exception e)  {
-                        echo 'Exception occurred: ' + e.toString()
-                        echo 'Ignoring hard exit from container build/scan'
+                stage('Container Scan'){
+                    steps {
+                        script {
+                            try {
+                                echo "Container Scan"
+                            } catch (Exception e)  {
+                                echo 'Exception occurred: ' + e.toString()
+                                echo 'Ignoring hard exit from container scanner tool'
+                            }
+                        }
                     }
                 }
             }
