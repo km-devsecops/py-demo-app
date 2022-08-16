@@ -1,2 +1,8 @@
+audit.info
 venv
 .idea
+/audit.info
+/audit.json
+/bandit.json
+/audit_formatted.json
+/reports/audit_formatted.json

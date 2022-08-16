@@ -9,11 +9,13 @@ pipeline {
                 echo 'Building..'
             }
         }
+
         stage('Test') {
             steps {
                 echo 'Testing..'
             }
         }
+
         stage('SonarQube analysis') {
             steps {
                 script {
@@ -26,6 +28,7 @@ pipeline {
                 }
             }
         }
+
         stage('Code Vulnerabilities'){
             steps {
                 script {
@@ -33,6 +36,7 @@ pipeline {
                 }
             }
         }
+
         stage('3rdParty Vulnerabilities'){
             steps {
                 script {
@@ -45,6 +49,7 @@ pipeline {
                 }
             }
         }
+
         stage('Container build and Scan'){
             steps {
                 script {
@@ -57,22 +62,48 @@ pipeline {
                 }
             }
         }
+
+        stage('Gather Reports'){
+            when {
+                expression { env.BRANCH_NAME == 'develop' }
+            }
+            steps {
+                echo "Collecting reports from all scanners .. "
+                python scripts/make_pip_audit_report.py -s audit.json
+            }
+        }
+
         stage('Ivanti Neurons: Upload') {
+            when {
+                expression { env.BRANCH_NAME == 'develop' }
+            }
             steps {
                 echo 'Uploading data into RiskSense ..'
             }
         }
+
         stage('Ivanti Neurons: CheckPoint') {
+            when {
+                expression { env.BRANCH_NAME == 'develop' }
+            }
             steps {
                 echo 'Check if all vulnerability scanner data is within thresholds ..'
             }
         }
+
         stage('Deploy') {
+            when {
+                expression { env.BRANCH_NAME == 'develop' }
+            }
             steps {
                 echo 'Deploy the new image and rotate tasks ..'
             }
         }
+
         stage('Validation Tests') {
+            when {
+                expression { env.BRANCH_NAME == 'develop' }
+            }
             steps {
                 echo 'Run validation tests including health checks ..'
             }
