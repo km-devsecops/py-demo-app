@@ -2,6 +2,7 @@ import xml.dom.minidom
 import argparse
 import json
 
+
 def parse(xmlfile):
 
     #
@@ -23,6 +24,7 @@ def parse(xmlfile):
         scan_data.append( { 'headline': headline,
                             'description': description })
     return scan_data
+
 
 if __name__ == '__main__':
 

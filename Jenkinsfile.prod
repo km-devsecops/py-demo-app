@@ -54,7 +54,7 @@ pipeline {
                     steps {
                         script {
                             try {
-                                sh "pip-audit -o audit.json  -f json"
+                                sh "pip-audit -o pip-audit.json  -f json"
                             } catch (Exception e)  {
                                 echo 'Exception occurred: ' + e.toString()
                                 echo 'Ignoring hard exit from pip-audit'
@@ -67,12 +67,9 @@ pipeline {
                         script {
                             try {
                                 sh "checkov --directory ${env.WORKSPACE}/terraform-scripts -o junitxml > result.xml"
-                                sh "ls -trl"
                             } catch (Exception e)  {
                                 echo 'Exception occurred: ' + e.toString()
                                 echo 'Ignoring hard exit from checkov'
-                                sh "ls -trl"
-                                sh "cat result.xml"
                             }
                         }
                     }
@@ -100,8 +97,8 @@ pipeline {
                 echo "Collecting reports from all scanners .. "
                 sh "mkdir ${env.WORKSPACE}/reports"
                 script {
-                    sh "python scripts/make_pip_audit_report.py -s pip_audit.json -o ${env.WORKSPACE}/reports/pip-audit-formatted.json"
-                    sh "python scripts/make_checkov_audit_report.py -s checkov_audit.json -o ${env.WORKSPACE}/reports/checkov-formatted.json"
+                    sh "python scripts/make_pip_audit_report.py -s pip-audit.json -o ${env.WORKSPACE}/reports/pip-audit-formatted.json"
+                    sh "python scripts/make_checkov_audit_report.py -s result.xml -o ${env.WORKSPACE}/reports/checkov-formatted.json"
                 }
             }
         }
