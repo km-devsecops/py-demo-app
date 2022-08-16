@@ -66,12 +66,13 @@ pipeline {
                     steps {
                         script {
                             try {
-                                sh "checkov --directory ${env.WORKSPACE}/terraform-scripts"
+                                sh "checkov --directory ${env.WORKSPACE}/terraform-scripts -o junitxml > result.xml"
                                 sh "ls -trl"
                             } catch (Exception e)  {
                                 echo 'Exception occurred: ' + e.toString()
                                 echo 'Ignoring hard exit from checkov'
                                 sh "ls -trl"
+                                sh "cat result.xml"
                             }
                         }
                     }
