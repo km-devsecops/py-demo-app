@@ -10,7 +10,7 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('Unit Test') {
             steps {
                 echo 'Testing..'
             }
@@ -58,6 +58,18 @@ pipeline {
                             } catch (Exception e)  {
                                 echo 'Exception occurred: ' + e.toString()
                                 echo 'Ignoring hard exit from pip-audit'
+                            }
+                        }
+                    }
+                }
+                stage('IAC Scan'){
+                    steps {
+                        script {
+                            try {
+                                sh "checkov --directory ${env.WORKSPACE}/terraform-scripts"
+                            } catch (Exception e)  {
+                                echo 'Exception occurred: ' + e.toString()
+                                echo 'Ignoring hard exit from checkov'
                             }
                         }
                     }
