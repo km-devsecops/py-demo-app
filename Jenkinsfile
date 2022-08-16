@@ -66,7 +66,7 @@ pipeline {
                     steps {
                         script {
                             try {
-                                sh "checkov --directory ${env.WORKSPACE}/terraform-scripts --output-file-path checkov.json"
+                                sh "checkov --directory ${env.WORKSPACE}/terraform-scripts"
                                 sh "ls -trl"
                             } catch (Exception e)  {
                                 echo 'Exception occurred: ' + e.toString()
