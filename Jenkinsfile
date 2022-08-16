@@ -71,6 +71,7 @@ pipeline {
             }
             steps {
                 echo "Collecting reports from all scanners .. "
+                sh "mkdir ${env.WORKSPACE}/reports"
                 script {
                     sh "python scripts/make_pip_audit_report.py -s audit.json -o ${env.WORKSPACE}/reports/audit-formatted.json"
                 }
