@@ -18,33 +18,39 @@ pipeline {
 
         stage('Security Scans') {
             steps {
-                parallel (
-                    sonarqube: {
-                        script {
-                            def scannerHome = tool 'SonarQubeScanner47';
-                            withSonarQubeEnv('sonar-cloud') {
-                                sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=py-demo-app \
-                                                                     -Dsonar.organization=csw-devsecops-org \
-                                                                     -Dsonar.python.version=3"
+                parallel {
+                    stage('Sonarqube') {
+                        steps {
+                            script {
+                                def scannerHome = tool 'SonarQubeScanner47';
+                                withSonarQubeEnv('sonar-cloud') {
+                                    sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=py-demo-app \
+                                                                         -Dsonar.organization=csw-devsecops-org \
+                                                                         -Dsonar.python.version=3"
+                                }
                             }
                         }
                     }
-                    code_vulns: {
-                        script {
-                            sh "bandit --severity-level high . -r -o bandit.json -f json --exit-zero"
-                        }
-                    }
-                    3rdparty_vulns:{
-                        script {
-                            try {
-                                sh "pip-audit -o audit.json  -f json"
-                            } catch (Exception e)  {
-                                echo 'Exception occurred: ' + e.toString()
-                                echo 'Ignoring hard exit from pip-audit'
+                    stage('Code Vulnerabilities'){
+                        steps {
+                            script {
+                                sh "bandit --severity-level high . -r -o bandit.json -f json --exit-zero"
                             }
                         }
                     }
-                )
+                    stage('ThirdParty_Vulnerabilities'){
+                        steps {
+                            script {
+                                try {
+                                    sh "pip-audit -o audit.json  -f json"
+                                } catch (Exception e)  {
+                                    echo 'Exception occurred: ' + e.toString()
+                                    echo 'Ignoring hard exit from pip-audit'
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
