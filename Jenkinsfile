@@ -69,7 +69,9 @@ pipeline {
             }
             steps {
                 echo "Collecting reports from all scanners .. "
-                python scripts/make_pip_audit_report.py -s audit.json
+                script {
+                    sh "python scripts/make_pip_audit_report.py -s audit.json"
+                }
             }
         }
 
