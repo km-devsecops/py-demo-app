@@ -6,3 +6,5 @@ venv
 /bandit.json
 /audit_formatted.json
 /reports/audit_formatted.json
+/results.xml
+/reports/checkov-formatted.json

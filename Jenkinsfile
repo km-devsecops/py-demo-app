@@ -100,7 +100,8 @@ pipeline {
                 echo "Collecting reports from all scanners .. "
                 sh "mkdir ${env.WORKSPACE}/reports"
                 script {
-                    sh "python scripts/make_pip_audit_report.py -s audit.json -o ${env.WORKSPACE}/reports/audit-formatted.json"
+                    sh "python scripts/make_pip_audit_report.py -s pip_audit.json -o ${env.WORKSPACE}/reports/pip-audit-formatted.json"
+                    sh "python scripts/make_checkov_audit_report.py -s checkov_audit.json -o ${env.WORKSPACE}/reports/checkov-formatted.json"
                 }
             }
         }
