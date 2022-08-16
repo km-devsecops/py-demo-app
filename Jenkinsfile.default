@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        echo "TODO: Container build .."
+                        sh "docker build -t flask:latest ."
                     } catch (Exception e)  {
                         echo 'Exception occurred: ' + e.toString()
                         echo 'Ignoring hard exit from container build'
