@@ -71,6 +71,7 @@ pipeline {
                             } catch (Exception e)  {
                                 echo 'Exception occurred: ' + e.toString()
                                 echo 'Ignoring hard exit from checkov'
+                                sh "ls -trl"
                             }
                         }
                     }
