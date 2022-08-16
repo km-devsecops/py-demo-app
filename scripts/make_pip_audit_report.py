@@ -75,10 +75,8 @@ if __name__ == '__main__':
             # Pick only those with associated vulns.
             from pprint import pprint
             pprint(entry)
-            print(entry.get(
-                'vulns'
-            ))
-            if len(entry.get('vulns')) > 0:
+
+            if 'vulns' in entry and len(entry.get('vulns')) > 0:
                 data_block['name'] = entry.get('name')
                 data_block['version'] = entry.get('version')
                 vuln = entry.get('vulns')[0]
