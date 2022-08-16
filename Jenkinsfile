@@ -16,37 +16,35 @@ pipeline {
             }
         }
 
-        stage('SonarQube analysis') {
+        stage('Security Scans') {
             steps {
-                script {
-                    def scannerHome = tool 'SonarQubeScanner47';
-                    withSonarQubeEnv('sonar-cloud') {
-                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=py-demo-app \
-                                                             -Dsonar.organization=csw-devsecops-org \
-                                                             -Dsonar.python.version=3"
+                parallel (
+                    sonarqube: {
+                        script {
+                            def scannerHome = tool 'SonarQubeScanner47';
+                            withSonarQubeEnv('sonar-cloud') {
+                                sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=py-demo-app \
+                                                                     -Dsonar.organization=csw-devsecops-org \
+                                                                     -Dsonar.python.version=3"
+                            }
+                        }
                     }
-                }
-            }
-        }
-
-        stage('Code Vulnerabilities'){
-            steps {
-                script {
-                    sh "bandit --severity-level high . -r -o bandit.json -f json --exit-zero"
-                }
-            }
-        }
-
-        stage('3rdParty Vulnerabilities'){
-            steps {
-                script {
-                    try {
-                        sh "pip-audit -o audit.json  -f json"
-                    } catch (Exception e)  {
-                        echo 'Exception occurred: ' + e.toString()
-                        echo 'Ignoring hard exit from pip-audit'
+                    code_vulns: {
+                        script {
+                            sh "bandit --severity-level high . -r -o bandit.json -f json --exit-zero"
+                        }
                     }
-                }
+                    3rdparty_vulns:{
+                        script {
+                            try {
+                                sh "pip-audit -o audit.json  -f json"
+                            } catch (Exception e)  {
+                                echo 'Exception occurred: ' + e.toString()
+                                echo 'Ignoring hard exit from pip-audit'
+                            }
+                        }
+                    }
+                )
             }
         }
 
