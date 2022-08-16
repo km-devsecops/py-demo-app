@@ -1,6 +1,6 @@
 node {
     stage('Load Jenkinsfile'){
-        checkout([ $class: 'GitSCM', branches: [[name: "feature/event-streaming-multibranch"]], doGenerateSubmoduleConfigurations: false,
+        checkout([ $class: 'GitSCM', branches: [[name: "develop"]], doGenerateSubmoduleConfigurations: false,
                    extensions: [[ $class: 'RelativeTargetDirectory', relativeTargetDir: 'pipeline-scripts']],
                    submoduleCfg: [],
                    userRemoteConfigs: [[ credentialsId: 'github-integration',
