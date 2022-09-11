@@ -2,6 +2,10 @@ pipeline {
     agent {
        label "securin"
     }
+    environment {
+        GIT_HASH = GIT_COMMIT.take(7)
+    }
+
 
     stages {
 
