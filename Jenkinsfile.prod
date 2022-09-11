@@ -176,7 +176,7 @@ pipeline {
                             script {
                                 sh "terraform init \
                                        -backend-config='bucket=${ENV_NAME}-csw-tf-states' \
-                                       -backend-config='key=${ENV_NAME}-${REGION}/devsecops/terraform.tfstate' \
+                                       -backend-config='key=${ENV_NAME}-us-west-2/devsecops/terraform.tfstate' \
                                        -backend-config='region=us-west-2'"
 
                                 sh "terraform plan -var-file='${ENV_NAME}-us-west-2/terraform.tfvars' -out apply.plan"
