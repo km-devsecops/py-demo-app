@@ -20,6 +20,7 @@ const HeaderSection = styled.div`
   background: black;
   color: white;
   padding: 5%;
+  font-size: 1.6em;
   width: 100%;
   align: Left;
   `
