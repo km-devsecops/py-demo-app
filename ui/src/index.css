@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 12px;
+  font-family: "Kumbh Sans", sans-serif;
+}
+
+table.layout {
+color: red !important;
+  border-spacing: 30px;
+}
+
+table.layout th, td {
+  padding-top: 70px;
+  padding-bottom: 20px;
+  padding-left: 30px;
+  padding-right: 40px;
+}

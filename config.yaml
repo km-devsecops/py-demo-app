@@ -1,0 +1,6 @@
+dev:
+  AMPLIFY_ID: "d3taz5v9576vwj"
+  S3_BUCKET: "vi-devsecops-demo"
+prod:
+  AMPLIFY_ID: "d4zt62ftx6r80"
+  S3_BUCKET: "amplify-prod-s3-bucket"

@@ -4,9 +4,40 @@ pipeline {
     }
 
     stages {
+
+        stage('Load Config') {
+            steps {
+                script {
+                    echo "Branch Name : ${env.BRANCH_NAME}"
+
+                    if (env.BRANCH_NAME == 'develop' || env.BRANCH_NAME == 'dev') {
+                        ENV_NAME = 'dev'
+                    } else if (env.BRANCH_NAME =~ /feature\//) {
+                        ENV_NAME = 'feature'
+                    } else if (env.BRANCH_NAME =~ /release\//) {
+                        ENV_NAME = 'prod'
+                    }
+                    else {
+                        ENV_NAME = 'UNKNOWN'
+                    }
+
+                    echo "BRANCH: ${env.BRANCH_NAME} and ENV_NAME : ${ENV_NAME}"
+
+                    if ( ENV_NAME == 'dev' || ENV_NAME == 'prod' ) {
+                        data = readYaml file: "config.yaml"
+                        AMPLIFY_ID = data.get(ENV_NAME).get('AMPLIFY_ID')
+                        S3_BUCKET = data.get(ENV_NAME).get('S3_BUCKET')
+                        echo "AMPLIFY_ID: ${AMPLIFY_ID} and BUCKET : ${S3_BUCKET}"
+                        echo "GIT_HASH :${GIT_HASH}"
+                    }
+                }
+            }
+        }
+
         stage('Build') {
             steps {
-                echo 'Building..'
+                echo "Building the artifact in 'dev' mode .."
+                sh "npm run build"
             }
         }
 
@@ -127,7 +158,19 @@ pipeline {
                 expression { env.BRANCH_NAME == 'develop' }
             }
             steps {
-                echo 'Deploy the new image and rotate tasks ..'
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+                                  credentialsId: "tf-${ENV_NAME}-deploy-role",
+                                  accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                                  secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                    withEnv(["AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}",
+                             "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}",
+                             "AWS_DEFAULT_REGION=us-west-2"]) {
+                        script {
+                            echo 'Deploying to Amplify application in Dev account'
+                            sh "cd ui && ./build-scripts/deploy.sh ${GIT_HASH} ${S3_BUCKET} ${AMPLIFY_ID} ${ENV_NAME}"
+                        }
+                    }
+                }
             }
         }
 

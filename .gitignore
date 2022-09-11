@@ -8,3 +8,5 @@ venv
 /reports/audit_formatted.json
 /results.xml
 /reports/checkov-formatted.json
+/ui/build/
+/ui/node_modules/
