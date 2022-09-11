@@ -90,14 +90,14 @@ const App = () => {
 <hr/>
         <TableApp>
         <tr>
-        <td>
+        <td style="vertical-align: top">
         <StyledAccordionWrapper className="accordionWrapper">
           <div className="illustration">
             <img src={Culture} alt="Culture" />
           </div>
            <CultureList />
         </StyledAccordionWrapper> </td>
-        <td>
+        <td style="vertical-align: top">
         <StyledAccordionWrapper className="accordionWrapper">
           <div className="illustration">
             <img src={Automation} alt="Automation" />
@@ -106,7 +106,7 @@ const App = () => {
         </StyledAccordionWrapper>
         </td>
 
-        <td>
+        <td style="vertical-align: top">
         <StyledAccordionWrapper className="accordionWrapper">
           <div className="illustration">
             <img src={Lean} alt="Lean" />
@@ -117,7 +117,7 @@ const App = () => {
 
         </tr>
         <tr>
-        <td>
+        <td style="vertical-align: top">
         <StyledAccordionWrapper className="accordionWrapper">
           <div className="illustration">
             <img src={Measure} alt="Measure" />
@@ -125,7 +125,7 @@ const App = () => {
            <MeasureList />
         </StyledAccordionWrapper>
         </td>
-        <td>
+        <td style="vertical-align: top">
         <StyledAccordionWrapper className="accordionWrapper">
           <div className="illustration">
             <img src={Security} alt="Security" />
