@@ -162,6 +162,52 @@ pipeline {
             }
         }
 
+        stage('Infra Plan') {
+
+            steps {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+                                  credentialsId: "tf-${ENVIRONMENT}-deploy-role",
+                                  accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                                  secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                    withEnv(["AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}",
+                             "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}",
+                             "AWS_DEFAULT_REGION=us-west-2"]) {
+                        dir("./terraform-scripts") {
+                            script {
+                                sh "terraform plan -var-file='${ENVIRONMENT}-us-west-2/terraform.tfvars' -out apply.plan"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Infra Deploy') {
+            options {
+                timeout(time: 120, unit: 'SECONDS')
+            }
+            input {
+                message 'Please review and approve the Terraform plan'
+            }
+            steps {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+                                  credentialsId: "tf-${ENVIRONMENT}-deploy-role",
+                                  accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                                  secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                    withEnv(["AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}",
+                             "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}",
+                             "AWS_DEFAULT_REGION=us-west-2"]) {
+                        dir("./terraform-scripts") {
+                            script {
+                                echo "Applying the Plan"
+                                sh "terraform apply apply.plan"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         stage('Deploy') {
             when {
                 expression { env.BRANCH_NAME == 'develop' }
@@ -174,9 +220,11 @@ pipeline {
                     withEnv(["AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}",
                              "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}",
                              "AWS_DEFAULT_REGION=us-west-2"]) {
-                        script {
-                            echo 'Deploying to Amplify application in Dev account'
-                            sh "cd ui && ./build-scripts/deploy.sh ${GIT_HASH} ${S3_BUCKET} ${AMPLIFY_ID} ${ENV_NAME}"
+                        dir("./ui") {
+                            script {
+                                echo 'Deploying to Amplify application in Dev account'
+                                sh "./build-scripts/deploy.sh ${GIT_HASH} ${S3_BUCKET} ${AMPLIFY_ID} ${ENV_NAME}"
+                            }
                         }
                     }
                 }
