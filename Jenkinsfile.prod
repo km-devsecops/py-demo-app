@@ -159,7 +159,7 @@ pipeline {
                      docker exec owasp mkdir /zap/wrk
                      docker exec owasp \
                      zap-baseline.py \
-                     -t https://https://dev.d3taz5v9576vwj.amplifyapp.com \
+                     -t https://dev.d3taz5v9576vwj.amplifyapp.com \
                      -x report.xml \
                      -I
                     """
