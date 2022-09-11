@@ -30,6 +30,9 @@ const TableApp = styled.div`
   width: 90%;
   align: center;
   `
+const TableCell = styled.td`
+  vertical-align: top;
+  `
 
 const StyledApp = styled.div`
   height: 100vh;
@@ -61,7 +64,9 @@ const StyledAccordionWrapper = styled.div`
     transform: translate(-195px,-50px);
   } 
 
-  
+  .cell {
+    vertical-align: top;
+  }
 
   .illustration {
     position: absolute;
@@ -90,50 +95,53 @@ const App = () => {
 <hr/>
         <TableApp>
         <tr>
-        <td style="vertical-align: top">
-        <StyledAccordionWrapper className="accordionWrapper">
-          <div className="illustration">
-            <img src={Culture} alt="Culture" />
-          </div>
-           <CultureList />
-        </StyledAccordionWrapper> </td>
-        <td style="vertical-align: top">
-        <StyledAccordionWrapper className="accordionWrapper">
-          <div className="illustration">
-            <img src={Automation} alt="Automation" />
-          </div>
-           <AutomationList />
-        </StyledAccordionWrapper>
-        </td>
+        <TableCell>
+            <StyledAccordionWrapper className="accordionWrapper">
+              <div className="illustration">
+                <img src={Culture} alt="Culture" />
+              </div>
+               <CultureList />
+            </StyledAccordionWrapper>
+        </TableCell>
+        <TableCell>
+            <StyledAccordionWrapper className="accordionWrapper">
+              <div className="illustration">
+                <img src={Automation} alt="Automation" />
+              </div>
+               <AutomationList />
+            </StyledAccordionWrapper>
+        </TableCell>
 
-        <td style="vertical-align: top">
+        <TableCell>
         <StyledAccordionWrapper className="accordionWrapper">
           <div className="illustration">
             <img src={Lean} alt="Lean" />
           </div>
            <LeanList />
         </StyledAccordionWrapper>
-        </td>
-
+        </TableCell>
         </tr>
+
         <tr>
-        <td style="vertical-align: top">
-        <StyledAccordionWrapper className="accordionWrapper">
-          <div className="illustration">
-            <img src={Measure} alt="Measure" />
-          </div>
-           <MeasureList />
-        </StyledAccordionWrapper>
-        </td>
-        <td style="vertical-align: top">
-        <StyledAccordionWrapper className="accordionWrapper">
-          <div className="illustration">
-            <img src={Security} alt="Security" />
-          </div>
-           <SharingList />
-        </StyledAccordionWrapper>
-        </td>
-        <td>&nbsp;</td>
+        <TableCell>
+            <StyledAccordionWrapper className="accordionWrapper">
+              <div className="illustration">
+                <img src={Measure} alt="Measure" />
+              </div>
+               <MeasureList />
+            </StyledAccordionWrapper>
+        </TableCell>
+
+        <TableCell>
+            <StyledAccordionWrapper className="accordionWrapper">
+              <div className="illustration">
+                <img src={Security} alt="Security" />
+              </div>
+               <SharingList />
+            </StyledAccordionWrapper>
+        </TableCell>
+
+        <TableCell>&nbsp;</TableCell>
         </tr>
         </TableApp>
 
