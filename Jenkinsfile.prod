@@ -41,7 +41,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Building the artifact in 'dev' mode .."
-                sh "npm run build"
+                sh "cd ui && npm run build && cd .."
             }
         }
 
