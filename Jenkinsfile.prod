@@ -136,6 +136,35 @@ pipeline {
             }
             steps {
                 echo 'Run validation tests including health checks ..'
+                script {
+                    sh "python scripts/run_health_checks.py"
+                }
+            }
+        }
+
+        stage('DAST') {
+            when {
+                expression { env.BRANCH_NAME == 'develop' }
+            }
+            steps {
+                echo 'Running OWASP ZAP scan ..'
+                script {
+                    echo "Pulling up last OWASP ZAP container --> Start"
+                    sh 'docker pull owasp/zap2docker-stable:latest'
+                    echo "Pulling up last VMS container --> End"
+                    echo "Starting container --> Start"
+                    sh """
+                     docker run -dt --name owasp \
+                     owasp/zap2docker-stable \
+                     /bin/bash
+                     docker exec owasp mkdir /zap/wrk
+                     docker exec owasp \
+                     zap-baseline.py \
+                     -t $target \
+                     -x report.xml \
+                     -I
+                    """
+                }
             }
         }
     }
