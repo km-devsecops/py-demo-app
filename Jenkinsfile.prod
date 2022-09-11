@@ -37,11 +37,22 @@ pipeline {
                 }
             }
         }
+        stage('Install dependencies') {
+            steps {
+                echo 'Installing dependencies ..'
+                sh "cd ui && npm install && cd .."
+            }
+        }
 
         stage('Build') {
             steps {
                 echo "Building the artifact in 'dev' mode .."
-                sh "cd ui && npm run build && cd .."
+                sh """
+                    cd ui
+                    npm install
+                    npm run build
+                    cd ..
+                """
             }
         }
 
