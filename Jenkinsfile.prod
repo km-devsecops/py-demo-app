@@ -214,6 +214,9 @@ pipeline {
                      -t https://dev.d3taz5v9576vwj.amplifyapp.com \
                      -x report.xml \
                      -I
+                     docker cp owasp:/zap/wrk/report.xml ${env.WORKSPACE}/reports
+                     ls -trl ${env.WORKSPACE}/reports
+                     docker stop owasp && docker rm owasp
                     """
                 }
             }
