@@ -10,3 +10,6 @@ venv
 /reports/checkov-formatted.json
 /ui/build/
 /ui/node_modules/
+/terraform-scripts/apply.plan
+/terraform-scripts/.terraform.lock.hcl
+/terraform-scripts/.terraform/
