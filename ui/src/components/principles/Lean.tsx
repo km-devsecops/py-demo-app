@@ -22,7 +22,7 @@ const StyledAccordionList = styled.div`
 const LeanList = () => {
   return (
     <StyledAccordionList>
-      <h1>Lean IT</h1>
+      <h1>Lean</h1>
       <ul>
       <li>Security inclusive definitions</li>
       <li>Security inclusive engineering</li>
