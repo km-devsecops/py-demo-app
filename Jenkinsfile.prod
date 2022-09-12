@@ -139,7 +139,7 @@ pipeline {
                 sh "mkdir ${env.WORKSPACE}/reports"
                 script {
                     sh "python scripts/make_pip_audit_report.py -s pip-audit.json -o ${env.WORKSPACE}/reports/pip-audit-formatted.json"
-                    sh "python scripts/make_checkov_audit_report.py -s result.xml -o ${env.WORKSPACE}/reports/checkov-formatted.json"
+                    sh "python scripts/make_checkov_audit_report.py -s terraform-scan.xml -o ${env.WORKSPACE}/reports/checkov-formatted.json"
                 }
             }
         }
