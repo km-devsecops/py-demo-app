@@ -160,6 +160,7 @@ pipeline {
                         dir("${env.WORKSPACE}/reports") {
                             script {
                                 sh "aws s3 cp checkov-formatted.json s3://dev-csw-deploy-files/"
+                                sh "aws s3 cp pip-audit-formatted.json s3://dev-csw-deploy-files/"
                             }
                         }
                     }
@@ -289,4 +290,26 @@ pipeline {
             }
         }
     }
+    stage('Ivanti Neurons: Zap-Upload') {
+                when {
+                    expression { env.BRANCH_NAME == 'develop' }
+                }
+                steps {
+                    echo 'Uploading data into RiskSense ..'
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+                                      credentialsId: "tf-${ENV_NAME}-deploy-role",
+                                      accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                                      secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                        withEnv(["AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}",
+                                 "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}",
+                                 "AWS_DEFAULT_REGION=us-west-2"]) {
+                            dir("${env.WORKSPACE}/reports") {
+                                script {
+                                    sh "aws s3 cp report.xml s3://dev-csw-deploy-files/"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 }
