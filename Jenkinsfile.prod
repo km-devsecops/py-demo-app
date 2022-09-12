@@ -106,7 +106,7 @@ pipeline {
                     steps {
                         script {
                             try {
-                                sh "checkov --directory ${env.WORKSPACE}/terraform-scripts -o junitxml > result.xml"
+                                sh "checkov --directory ${env.WORKSPACE}/terraform-scripts -o junitxml > terraform-scan.xml"
                             } catch (Exception e)  {
                                 echo 'Exception occurred: ' + e.toString()
                                 echo 'Ignoring hard exit from checkov'
@@ -160,7 +160,6 @@ pipeline {
                         dir("${env.WORKSPACE}/reports") {
                             script {
                                 sh "aws s3 cp checkov-formatted.json s3://dev-csw-deploy-files/"
-                                sh "aws s3 cp bandit.json s3://dev-csw-deploy-files/"
                                 sh "aws s3 cp pip-audit-formatted.json s3://dev-csw-deploy-files/"
                             }
                         }
