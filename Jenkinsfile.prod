@@ -289,7 +289,6 @@ pipeline {
                 }
             }
         }
-    }
     stage('Ivanti Neurons: Zap-Upload') {
                 when {
                     expression { env.BRANCH_NAME == 'develop' }
@@ -312,4 +311,6 @@ pipeline {
                     }
                 }
             }
+    }
 }
+
