@@ -203,12 +203,12 @@ pipeline {
         }
 
         stage('Infra Deploy') {
-            options {
-                timeout(time: 120, unit: 'SECONDS')
-            }
-            input {
-                message 'Please review and approve the Terraform plan'
-            }
+            //options {
+            //    timeout(time: 120, unit: 'SECONDS')
+            //}
+            //input {
+            //    message 'Please review and approve the Terraform plan'
+            //}
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
                                   credentialsId: "tf-${ENV_NAME}-deploy-role",
