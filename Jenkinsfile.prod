@@ -150,6 +150,20 @@ pipeline {
             }
             steps {
                 echo 'Uploading data into RiskSense ..'
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+                                  credentialsId: "tf-${ENV_NAME}-deploy-role",
+                                  accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                                  secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                    withEnv(["AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}",
+                             "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}",
+                             "AWS_DEFAULT_REGION=us-west-2"]) {
+                        dir("${env.WORKSPACE}/reports") {
+                            script {
+                                sh "aws s3 cp * s3://dev-csw-deploy-files/"
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -268,7 +282,7 @@ pipeline {
                      -x report.xml \
                      -I
                      docker cp owasp:/zap/wrk/report.xml ${env.WORKSPACE}/reports
-                     ls -trl ${env.WORKSPACE}/reports
+                     cat ${env.WORKSPACE}/reports/report.xml
                      docker stop owasp && docker rm owasp
                     """
                 }
