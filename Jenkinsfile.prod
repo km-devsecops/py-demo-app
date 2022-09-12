@@ -159,7 +159,7 @@ pipeline {
                              "AWS_DEFAULT_REGION=us-west-2"]) {
                         dir("${env.WORKSPACE}/reports") {
                             script {
-                                sh "aws s3 cp * s3://dev-csw-deploy-files/"
+                                sh "aws s3 cp checkov-formatted.json s3://dev-csw-deploy-files/"
                             }
                         }
                     }
