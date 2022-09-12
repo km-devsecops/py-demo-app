@@ -24,7 +24,7 @@ const MeasureList = () => {
     <StyledAccordionList>
       <h1>Measure</h1>
       <ul>
-      <li>Measurements of both Prod and Non-Prod</li>
+      <li>Measurements of both Production and Non-Production</li>
       <li>Definition of Security as part of business value and success critieria</li>
       <li>Security Scorecards</li>
       </ul>
