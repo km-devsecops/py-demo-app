@@ -22,7 +22,7 @@ const StyledAccordionList = styled.div`
 const AutomationList = () => {
   return (
     <StyledAccordionList>
-      <h1>Automation</h1>
+      <h1>AUTOMATION</h1>
       <ul>
       <li>Inclusion of Security in CI/CD Pipeline</li>
       <li>SAST and DAST checks</li>
