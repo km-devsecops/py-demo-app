@@ -24,7 +24,7 @@ const CultureList = () => {
     <StyledAccordionList>
       <h1>Culture</h1>
       <ul>
-      <li>Security is included as part of requirement </li>
+      <li>Security is included as part of requirements </li>
       <li>Included as part of everyone&apos;s objective </li>
       </ul>
     </StyledAccordionList>
