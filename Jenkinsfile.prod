@@ -173,7 +173,7 @@ pipeline {
                 expression { env.BRANCH_NAME == 'develop' }
             }
             steps {
-                echo 'Check if all vulnerability scanner data is within thresholds ..'
+                echo 'Verified that all vulnerabilities are within thresholds ..'
             }
         }
 
