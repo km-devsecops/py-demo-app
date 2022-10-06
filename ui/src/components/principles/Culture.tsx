@@ -22,7 +22,7 @@ const StyledAccordionList = styled.div`
 const CultureList = () => {
   return (
     <StyledAccordionList>
-      <h1>Culture</h1>
+      <h1>CULTURE</h1>
       <ul>
       <li>Security is included as part of requirements </li>
       <li>Included as part of everyone&apos;s objectives </li>
